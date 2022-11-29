@@ -31,7 +31,6 @@ describe('restaurants route', () => {
 
   it('GET /api/v1/restaurants/:restId should return a detailed list of restaurants with nested reviews', async () => {
     const resp = await request(app).get('/api/v1/restaurants/1');
-    console.log(resp.body, 'restaurants!');
     expect(resp.status).toBe(200);
     expect(resp.body).toMatchInlineSnapshot(`
       Object {
@@ -64,6 +63,31 @@ describe('restaurants route', () => {
           },
         ],
         "website": "http://www.PipsOriginal.com",
+      }
+    `);
+  });
+  const registerAndLogin = async () => {
+    const agent = request.agent(app);
+    const user = await UserService.create(mockUser);
+    await agent
+      .post('/api/v1/users/sessions')
+      .send({ email: mockUser.email, password: mockUser.password });
+    return [agent, user];
+  };
+
+  it('POST /api/v1/restaurants/:restId/reviews should return a protected list of review by restId', async () => {
+    const [agent] = await registerAndLogin();
+    const resp = await agent
+      .post('/api/v1/restaurants/1/reviews')
+      .send({ stars: 4, detail: 'This is a new review' });
+    expect(resp.status).toBe(200);
+    expect(resp.body).toMatchInlineSnapshot(`
+      Object {
+        "detail": "This is a new review",
+        "id": "4",
+        "restaurant_id": null,
+        "stars": null,
+        "user_id": null,
       }
     `);
   });
