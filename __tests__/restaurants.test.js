@@ -8,7 +8,7 @@ const mockUser = {
   firstName: 'Test',
   lastName: 'User',
   email: 'test@example.com',
-  password: '321321',
+  password: '12345',
 };
 
 describe('restaurants route', () => {
@@ -43,23 +43,23 @@ describe('restaurants route', () => {
           Object {
             "detail": "Best restaurant ever!",
             "id": "1",
-            "restaurant_id": "1",
+            "restaurantId": "1",
             "stars": 5,
-            "user_id": "1",
+            "userId": "1",
           },
           Object {
             "detail": "Terrible service :(",
             "id": "2",
-            "restaurant_id": "1",
+            "restaurantId": "1",
             "stars": 1,
-            "user_id": "2",
+            "userId": "2",
           },
           Object {
             "detail": "It was fine.",
             "id": "3",
-            "restaurant_id": "1",
+            "restaurantId": "1",
             "stars": 4,
-            "user_id": "3",
+            "userId": "3",
           },
         ],
         "website": "http://www.PipsOriginal.com",
@@ -85,9 +85,9 @@ describe('restaurants route', () => {
       Object {
         "detail": "This is a new review",
         "id": "4",
-        "restaurant_id": null,
-        "stars": null,
-        "user_id": null,
+        "restaurantId": "1",
+        "stars": 4,
+        "userId": "4",
       }
     `);
   });
