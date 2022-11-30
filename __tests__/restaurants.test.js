@@ -91,4 +91,18 @@ describe('restaurants route', () => {
       }
     `);
   });
+
+  //DELETE /api/v1/reviews/:id "deletes a review - protected and must be an admin or user who created the review"
+  it('DELETE /api/v1/reviews/:id should delete a review created by a user or admin', async () => {
+    const [agent] = await registerAndLogin();
+    await agent
+      .post('/api/v1/restaurants/1/reviews')
+      .send({ stars: 5, detail: 'Great spot!' });
+    const resp = await agent.delete('/api/v1/reviews/4');
+    expect(resp.status).toBe(200);
+    //add a different get???
+    const reviewResp = await agent.get('/api/v1/reviews/4');
+    expect(reviewResp.status).toBe(404);
+  });
+
 });
